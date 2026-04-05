@@ -110,37 +110,64 @@ function setupTiltCards() {
   });
 }
 
-async function checkBackendHealth() {
-  const statusEl = document.getElementById("apiStatus");
-  if (!statusEl) {
+function setupScannerDeviceMotion() {
+  const device = document.getElementById("scannerDevice");
+  if (!device) {
     return;
   }
 
-  const endpoints = [
-    "/health",
-    "/api/health",
-    "http://localhost:5000/health",
-    "http://localhost:8000/health"
-  ];
+  const interactiveTilt = (x, y, rect) => {
+    const px = (x - rect.left) / rect.width;
+    const py = (y - rect.top) / rect.height;
+    const tiltY = (px - 0.5) * 16;
+    const tiltX = (0.5 - py) * 14;
+    device.style.transform = `rotateX(${10 + tiltX}deg) rotateY(${tiltY}deg) translateY(-2px)`;
+  };
 
-  for (const endpoint of endpoints) {
-    try {
-      const response = await fetch(endpoint, { method: "GET" });
-      if (response.ok) {
-        statusEl.textContent = `Backend connected via ${endpoint}`;
-        return;
-      }
-    } catch (error) {
-      // Try next endpoint.
+  device.addEventListener("mousemove", (event) => {
+    const rect = device.getBoundingClientRect();
+    interactiveTilt(event.clientX, event.clientY, rect);
+  });
+
+  device.addEventListener("touchmove", (event) => {
+    const touch = event.touches[0];
+    if (!touch) {
+      return;
     }
-  }
+    const rect = device.getBoundingClientRect();
+    interactiveTilt(touch.clientX, touch.clientY, rect);
+  }, { passive: true });
 
-  statusEl.textContent = "Backend endpoint not detected. Update API URL for deployment.";
+  const reset = () => {
+    device.style.transform = "";
+  };
+
+  device.addEventListener("mouseleave", reset);
+  device.addEventListener("touchend", reset);
+}
+
+function setupModuleParallax() {
+  const modules = document.querySelectorAll(".module");
+  modules.forEach((moduleCard) => {
+    moduleCard.addEventListener("mousemove", (e) => {
+      const rect = moduleCard.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const rotateY = ((x / rect.width) - 0.5) * 8;
+      const rotateX = (0.5 - (y / rect.height)) * 8;
+      moduleCard.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+
+    moduleCard.addEventListener("mouseleave", () => {
+      moduleCard.style.transform = "translateY(0)";
+    });
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   setupCarousel3D();
   setupRevealAnimations();
   setupTiltCards();
-  checkBackendHealth();
+  setupScannerDeviceMotion();
+  setupModuleParallax();
 });

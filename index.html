@@ -60,12 +60,18 @@
     <section id="scanner" class="scanner-section reveal glass">
       <div class="scanner-header">
         <h2>AI Plant Scanner</h2>
-        <p id="apiStatus">Checking integration endpoints...</p>
+        <p>Scan Ayurvedic leaves in an immersive 3D scanner console.</p>
       </div>
 
       <div class="scanner-grid">
         <div class="scanner-box">
-          <video id="webcam" autoplay playsinline></video>
+          <div class="scanner-device" id="scannerDevice">
+            <div class="scanner-device-bezel"></div>
+            <video id="webcam" autoplay playsinline></video>
+            <span class="scanner-chip chip-1">Live Feed</span>
+            <span class="scanner-chip chip-2">Plant AI</span>
+            <span class="scanner-chip chip-3">Herb Vision</span>
+          </div>
           <button id="scanButton" class="btn btn-primary" onclick="init()">Start Scanner</button>
           <div id="result">Result will appear here.</div>
         </div>
@@ -75,7 +81,7 @@
           <ul>
             <li>Uses your existing Teachable Machine model for leaf classification.</li>
             <li>Keeps the same scan function contract used by current frontend logic.</li>
-            <li>Includes backend health probing so deployment issues are visible early.</li>
+            <li>Delivers real-time prediction output in a cinematic scanner view.</li>
           </ul>
         </div>
       </div>
