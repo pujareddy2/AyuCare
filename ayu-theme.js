@@ -1,4 +1,99 @@
+const ayMotionPresets = {
+  soft: {
+    deviceTiltY: 10,
+    deviceTiltX: 8,
+    cardTilt: 6,
+    depthY: 24,
+    rotateX: 10,
+    rotateZ: 3,
+    scaleBoost: 0.02,
+    blur: 0.7,
+    saturationBase: 0.95,
+    saturationBoost: 0.12,
+    focusThreshold: 0.76,
+    cutThreshold: 0.62,
+    flashDuration: 210
+  },
+  cinematic: {
+    deviceTiltY: 14,
+    deviceTiltX: 12,
+    cardTilt: 9,
+    depthY: 42,
+    rotateX: 18,
+    rotateZ: 6,
+    scaleBoost: 0.045,
+    blur: 1.35,
+    saturationBase: 0.92,
+    saturationBoost: 0.25,
+    focusThreshold: 0.72,
+    cutThreshold: 0.56,
+    flashDuration: 280
+  },
+  extreme: {
+    deviceTiltY: 19,
+    deviceTiltX: 16,
+    cardTilt: 12,
+    depthY: 64,
+    rotateX: 26,
+    rotateZ: 9,
+    scaleBoost: 0.07,
+    blur: 2,
+    saturationBase: 0.9,
+    saturationBoost: 0.35,
+    focusThreshold: 0.66,
+    cutThreshold: 0.48,
+    flashDuration: 360
+  }
+};
+
+function resolveInitialMotionPreset() {
+  const bodyPreset = document.body.dataset.motionPreset;
+  if (bodyPreset && ayMotionPresets[bodyPreset]) {
+    return bodyPreset;
+  }
+
+  const searchParam = new URLSearchParams(window.location.search).get("motion");
+  if (searchParam && ayMotionPresets[searchParam]) {
+    return searchParam;
+  }
+
+  try {
+    const saved = window.localStorage.getItem("ay-motion-preset");
+    if (saved && ayMotionPresets[saved]) {
+      return saved;
+    }
+  } catch (error) {
+    // Ignore storage access issues.
+  }
+
+  return "cinematic";
+}
+
+function setMotionPreset(name) {
+  const presetName = ayMotionPresets[name] ? name : "cinematic";
+  document.body.dataset.motionPreset = presetName;
+
+  try {
+    window.localStorage.setItem("ay-motion-preset", presetName);
+  } catch (error) {
+    // Ignore storage access issues.
+  }
+
+  return presetName;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  let activePresetName = setMotionPreset(resolveInitialMotionPreset());
+  let activePreset = ayMotionPresets[activePresetName];
+  let requestRollFrame = () => {};
+
+  window.setAyuMotionPreset = (name) => {
+    activePresetName = setMotionPreset(name);
+    activePreset = ayMotionPresets[activePresetName];
+    requestRollFrame();
+    return activePresetName;
+  };
+
   const revealItems = document.querySelectorAll(".ay-reveal");
   if (revealItems.length > 0) {
     const observer = new IntersectionObserver(
@@ -36,8 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const rect = scene.getBoundingClientRect();
       const px = (clientX - rect.left) / rect.width;
       const py = (clientY - rect.top) / rect.height;
-      const y = (px - 0.5) * 14;
-      const x = (0.5 - py) * 12;
+      const y = (px - 0.5) * activePreset.deviceTiltY;
+      const x = (0.5 - py) * activePreset.deviceTiltX;
       shell.style.transform = `rotateX(${10 + x}deg) rotateY(${y}deg) translateY(-2px)`;
     };
 
@@ -68,8 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const rect = card.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    const rotateY = ((x / rect.width) - 0.5) * 9;
-    const rotateX = (0.5 - (y / rect.height)) * 9;
+    const rotateY = ((x / rect.width) - 0.5) * activePreset.cardTilt;
+    const rotateX = (0.5 - (y / rect.height)) * activePreset.cardTilt;
     card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
   });
 
@@ -106,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       cutFlashTimer = window.setTimeout(() => {
         document.body.classList.remove("ay-cut-flash");
-      }, 280);
+      }, activePreset.flashDuration);
     };
 
     const animateCameraRoll = () => {
@@ -122,16 +217,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const clamped = Math.max(-1, Math.min(1, offset));
         const visibility = Math.max(0, Math.min(1, 1 - Math.abs(clamped) * 1.2));
 
-        const depthY = -clamped * 42;
-        const rotateX = -clamped * 18;
-        const rotateZ = -clamped * 6;
-        const scale = 1 + visibility * 0.045;
-        const blur = (1 - visibility) * 1.35;
+        const depthY = -clamped * activePreset.depthY;
+        const rotateX = -clamped * activePreset.rotateX;
+        const rotateZ = -clamped * activePreset.rotateZ;
+        const scale = 1 + visibility * activePreset.scaleBoost;
+        const blur = (1 - visibility) * activePreset.blur;
 
         layer.style.transform = `perspective(1300px) translate3d(0, ${depthY}px, 0) rotateX(${rotateX}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
-        layer.style.filter = `blur(${blur}px) saturate(${0.92 + visibility * 0.25})`;
+        layer.style.filter = `blur(${blur}px) saturate(${activePreset.saturationBase + visibility * activePreset.saturationBoost})`;
 
-        if (visibility > 0.72) {
+        if (visibility > activePreset.focusThreshold) {
           layer.classList.add("is-focus");
         } else {
           layer.classList.remove("is-focus");
@@ -149,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      if (bestLayer && bestLayer !== activeLayer && bestVisibility > 0.56) {
+      if (bestLayer && bestLayer !== activeLayer && bestVisibility > activePreset.cutThreshold) {
         activeLayer = bestLayer;
         triggerSceneCut(bestLayer);
       }
@@ -157,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
       rafId = null;
     };
 
-    const requestRollFrame = () => {
+    requestRollFrame = () => {
       if (rafId === null) {
         rafId = window.requestAnimationFrame(animateCameraRoll);
       }
