@@ -47,7 +47,7 @@ function displayVideos() {
   container.innerHTML = "";
   videos.forEach(video => {
     container.innerHTML += `
-      <div class="ay-card">
+      <div class="ay-card ay-interact">
         <h2 style="margin:0 0 0.5rem;font-size:1rem;font-weight:700;color:#204b38;">${video.title}</h2>
         <iframe style="width:100%;height:230px;border:0;border-radius:0.8rem;" src="${video.url}" allowfullscreen></iframe>
       </div>
@@ -68,7 +68,7 @@ function displayMeditations(category) {
 
   filtered.forEach(meditation => {
     const div = document.createElement('div');
-    div.className = 'ay-card';
+    div.className = 'ay-card ay-interact';
     div.innerHTML = `
       <h3 style="margin:0 0 0.5rem;font-size:1rem;font-weight:700;">${meditation.title}</h3>
       <iframe style="width:100%;height:215px;border:0;border-radius:0.8rem;" src="${meditation.video}" allowfullscreen></iframe>

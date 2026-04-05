@@ -27,7 +27,7 @@ const products = [
     productContainer.innerHTML = "";
     filteredProducts.forEach(product => {
       productContainer.innerHTML += `
-          <div class="ay-card" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:0.45rem;">
+          <div class="ay-card ay-interact" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:0.45rem;">
             <img src="${product.img}" alt="${product.name}" style="width:8rem;height:8rem;object-fit:cover;border-radius:0.8rem;">
             <h2 style="margin:0;font-size:1.1rem;font-weight:700;">${product.name}</h2>
             <p style="margin:0;color:#b76d34;font-weight:700;">${product.price}</p>

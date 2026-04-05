@@ -56,7 +56,7 @@ function renderVideos(list) {
 
   list.forEach((video) => {
     const card = document.createElement("div");
-    card.className = "ay-card";
+    card.className = "ay-card ay-interact";
     card.innerHTML = `
       <h2 style="margin:0 0 0.55rem;font-size:1rem;font-weight:700;">${video.title}</h2>
       <iframe style="width:100%;height:230px;border:0;border-radius:0.8rem;" src="${video.url}" allowfullscreen></iframe>

@@ -24,4 +24,63 @@ document.addEventListener("DOMContentLoaded", () => {
       link.classList.add("active");
     }
   });
+
+  const deviceScenes = document.querySelectorAll(".ay-device-scene");
+  deviceScenes.forEach((scene) => {
+    const shell = scene.querySelector(".ay-device-shell");
+    if (!shell) {
+      return;
+    }
+
+    const updateTilt = (clientX, clientY) => {
+      const rect = scene.getBoundingClientRect();
+      const px = (clientX - rect.left) / rect.width;
+      const py = (clientY - rect.top) / rect.height;
+      const y = (px - 0.5) * 14;
+      const x = (0.5 - py) * 12;
+      shell.style.transform = `rotateX(${10 + x}deg) rotateY(${y}deg) translateY(-2px)`;
+    };
+
+    scene.addEventListener("mousemove", (event) => {
+      updateTilt(event.clientX, event.clientY);
+    });
+
+    scene.addEventListener("touchmove", (event) => {
+      const touch = event.touches[0];
+      if (touch) {
+        updateTilt(touch.clientX, touch.clientY);
+      }
+    }, { passive: true });
+
+    const reset = () => {
+      shell.style.transform = "";
+    };
+    scene.addEventListener("mouseleave", reset);
+    scene.addEventListener("touchend", reset);
+  });
+
+  document.addEventListener("mousemove", (event) => {
+    const card = event.target.closest(".ay-interact");
+    if (!card) {
+      return;
+    }
+
+    const rect = card.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const rotateY = ((x / rect.width) - 0.5) * 9;
+    const rotateX = (0.5 - (y / rect.height)) * 9;
+    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+  });
+
+  document.addEventListener("mouseout", (event) => {
+    const card = event.target.closest(".ay-interact");
+    if (!card) {
+      return;
+    }
+
+    if (!card.contains(event.relatedTarget)) {
+      card.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)";
+    }
+  });
 });
