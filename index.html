@@ -2,38 +2,120 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AyuCare Plant Scanner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AyuCare | Ancient Roots Modern Wellness</title>
+  <meta name="description" content="AyuCare blends Ayurvedic guidance, plant scanning, and wellness tools into one immersive experience." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0fff0;
-      text-align: center;
-      padding: 20px;
-    }
-    video {
-      border: 2px solid green;
-      border-radius: 8px;
-      width: 300px;
-      height: auto;
-      margin-top: 10px;
-    }
-    #result {
-      font-size: 1.2em;
-      color: darkgreen;
-      margin-top: 15px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🌿 AyuCare Plant Scanner</h1>
-  <p>Scan any Ayurvedic plant leaf using your webcam</p>
-  <video id="webcam" autoplay playsinline></video>
-  <br />
-  <button onclick="init()">Start Scanner</button>
-  <div id="result">Result will appear here</div>
+  <div class="ambient-bg" aria-hidden="true"></div>
+
+  <header class="topbar glass">
+    <div class="brand">AyuCare</div>
+    <nav class="nav-links">
+      <a href="#scanner">Scanner</a>
+      <a href="#herbs">Herb Gallery</a>
+      <a href="#tools">Tools</a>
+      <a href="shop.html">Shop</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero reveal">
+      <div class="hero-copy">
+        <p class="eyebrow">Ancient Roots. Modern Wellness.</p>
+        <h1>Immersive Ayurvedic Wellness Platform</h1>
+        <p>
+          Explore curated herbs, scan leaves in real time, and connect with AyuCare wellness modules.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#scanner">Start Plant Scan</a>
+          <a class="btn btn-ghost" href="#tools">Explore Modules</a>
+        </div>
+      </div>
+
+      <div class="hero-visual glass">
+        <div class="carousel3d" id="herbCarousel" aria-label="Rotating Ayurvedic herb images">
+          <div class="carousel-track" id="carouselTrack">
+            <figure class="panel"><img src="AmlaP.PNG" alt="Amla" /></figure>
+            <figure class="panel"><img src="Ashwagandha.jpeg" alt="Ashwagandha" /></figure>
+            <figure class="panel"><img src="Brahmi.jpeg" alt="Brahmi" /></figure>
+            <figure class="panel"><img src="Coconut.jpeg" alt="Coconut" /></figure>
+            <figure class="panel"><img src="CastorOil.PNG" alt="Castor oil" /></figure>
+            <figure class="panel"><img src="GingerP.PNG" alt="Ginger powder" /></figure>
+            <figure class="panel"><img src="GingerT.PNG" alt="Ginger tea" /></figure>
+            <figure class="panel"><img src="NeemP.PNG" alt="Neem powder" /></figure>
+            <figure class="panel"><img src="TulsiP.PNG" alt="Tulsi powder" /></figure>
+            <figure class="panel"><img src="TumericP.PNG" alt="Turmeric powder" /></figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="scanner" class="scanner-section reveal glass">
+      <div class="scanner-header">
+        <h2>AI Plant Scanner</h2>
+        <p id="apiStatus">Checking integration endpoints...</p>
+      </div>
+
+      <div class="scanner-grid">
+        <div class="scanner-box">
+          <video id="webcam" autoplay playsinline></video>
+          <button id="scanButton" class="btn btn-primary" onclick="init()">Start Scanner</button>
+          <div id="result">Result will appear here.</div>
+        </div>
+
+        <div class="scanner-notes">
+          <h3>How this integrates</h3>
+          <ul>
+            <li>Uses your existing Teachable Machine model for leaf classification.</li>
+            <li>Keeps the same scan function contract used by current frontend logic.</li>
+            <li>Includes backend health probing so deployment issues are visible early.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="herbs" class="showcase reveal">
+      <h2>Ayurvedic Ingredient Spectrum</h2>
+      <p>Hover cards to inspect details with depth and motion.</p>
+      <div class="card-grid">
+        <article class="tilt-card">
+          <img src="Chyawa.PNG" alt="Chyawanprash" />
+          <h3>Rasayana</h3>
+          <p>Restorative support through classical formulations.</p>
+        </article>
+        <article class="tilt-card">
+          <img src="TulsiT.PNG" alt="Tulsi tea" />
+          <h3>Respiratory Balance</h3>
+          <p>Warm, aromatic herb support for daily resilience.</p>
+        </article>
+        <article class="tilt-card">
+          <img src="AmlaCandy.PNG" alt="Amla candy" />
+          <h3>Digestive Vitality</h3>
+          <p>Traditional ingredient choices for gut and immunity.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="tools" class="modules reveal">
+      <h2>Wellness Modules</h2>
+      <div class="module-links">
+        <a class="module glass" href="food.html"><span>Recommendations</span><small>Symptom-based suggestions</small></a>
+        <a class="module glass" href="foodtracker.html"><span>Diet Tracker</span><small>Daily meal and hydration logs</small></a>
+        <a class="module glass" href="meditation.html"><span>Meditation</span><small>Guided sessions</small></a>
+        <a class="module glass" href="yoga.html"><span>Yoga</span><small>Practice routines</small></a>
+        <a class="module glass" href="exercise.html"><span>Exercise</span><small>Activity guidance</small></a>
+        <a class="module glass" href="shop.html"><span>Shop</span><small>Ayurvedic products</small></a>
+        <a class="module glass" href="cart.html"><span>Cart</span><small>Checkout flow</small></a>
+      </div>
+    </section>
+  </main>
 
   <script src="script.js"></script>
 </body>
