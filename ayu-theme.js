@@ -87,10 +87,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const cameraLayers = Array.from(document.querySelectorAll(".ay-camera-layer"));
   if (cameraLayers.length > 0) {
     let rafId = null;
+    let activeLayer = null;
+    let cutFlashTimer = null;
+
+    const triggerSceneCut = (layer) => {
+      if (!layer) {
+        return;
+      }
+
+      layer.classList.remove("ay-snap-in");
+      // Restart animation cleanly on repeated focus changes.
+      void layer.offsetWidth;
+      layer.classList.add("ay-snap-in");
+
+      document.body.classList.add("ay-cut-flash");
+      if (cutFlashTimer) {
+        window.clearTimeout(cutFlashTimer);
+      }
+      cutFlashTimer = window.setTimeout(() => {
+        document.body.classList.remove("ay-cut-flash");
+      }, 280);
+    };
 
     const animateCameraRoll = () => {
       const viewportH = window.innerHeight || 1;
       const viewportMid = viewportH * 0.5;
+      let bestLayer = null;
+      let bestVisibility = -1;
 
       cameraLayers.forEach((layer) => {
         const rect = layer.getBoundingClientRect();
@@ -119,7 +142,17 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           layer.classList.remove("is-rolling");
         }
+
+        if (visibility > bestVisibility) {
+          bestVisibility = visibility;
+          bestLayer = layer;
+        }
       });
+
+      if (bestLayer && bestLayer !== activeLayer && bestVisibility > 0.56) {
+        activeLayer = bestLayer;
+        triggerSceneCut(bestLayer);
+      }
 
       rafId = null;
     };
