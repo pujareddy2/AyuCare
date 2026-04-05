@@ -83,4 +83,55 @@ document.addEventListener("DOMContentLoaded", () => {
       card.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)";
     }
   });
+
+  const cameraLayers = Array.from(document.querySelectorAll(".ay-camera-layer"));
+  if (cameraLayers.length > 0) {
+    let rafId = null;
+
+    const animateCameraRoll = () => {
+      const viewportH = window.innerHeight || 1;
+      const viewportMid = viewportH * 0.5;
+
+      cameraLayers.forEach((layer) => {
+        const rect = layer.getBoundingClientRect();
+        const elementMid = rect.top + rect.height * 0.5;
+        const offset = (elementMid - viewportMid) / viewportH;
+        const clamped = Math.max(-1, Math.min(1, offset));
+        const visibility = Math.max(0, Math.min(1, 1 - Math.abs(clamped) * 1.2));
+
+        const depthY = -clamped * 42;
+        const rotateX = -clamped * 18;
+        const rotateZ = -clamped * 6;
+        const scale = 1 + visibility * 0.045;
+        const blur = (1 - visibility) * 1.35;
+
+        layer.style.transform = `perspective(1300px) translate3d(0, ${depthY}px, 0) rotateX(${rotateX}deg) rotateZ(${rotateZ}deg) scale(${scale})`;
+        layer.style.filter = `blur(${blur}px) saturate(${0.92 + visibility * 0.25})`;
+
+        if (visibility > 0.72) {
+          layer.classList.add("is-focus");
+        } else {
+          layer.classList.remove("is-focus");
+        }
+
+        if (Math.abs(clamped) < 0.98) {
+          layer.classList.add("is-rolling");
+        } else {
+          layer.classList.remove("is-rolling");
+        }
+      });
+
+      rafId = null;
+    };
+
+    const requestRollFrame = () => {
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(animateCameraRoll);
+      }
+    };
+
+    requestRollFrame();
+    window.addEventListener("scroll", requestRollFrame, { passive: true });
+    window.addEventListener("resize", requestRollFrame);
+  }
 });

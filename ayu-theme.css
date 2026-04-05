@@ -184,6 +184,40 @@ body.ay-body {
   padding: 1rem;
 }
 
+.ay-camera-layer {
+  transform-style: preserve-3d;
+  will-change: transform, filter;
+  transition: transform 0.08s linear, filter 0.08s linear;
+}
+
+.ay-camera-layer.is-rolling {
+  filter: saturate(1.06) contrast(1.01);
+}
+
+.ay-camera-layer.is-focus {
+  box-shadow: 0 24px 46px rgba(17, 47, 35, 0.24);
+}
+
+.ay-cinematic-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.ay-cinematic-shell::before {
+  content: "";
+  position: absolute;
+  inset: -80% -60%;
+  background: conic-gradient(from 180deg at 50% 50%, rgba(255, 255, 255, 0) 0deg, rgba(255, 255, 255, 0.22) 70deg, rgba(255, 255, 255, 0) 160deg);
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(-8deg);
+}
+
+.ay-cinematic-shell.is-focus::before {
+  opacity: 0.36;
+  animation: aySweep 1.4s ease;
+}
+
 .ay-input,
 .ay-select,
 .ay-btn,
@@ -361,6 +395,15 @@ body.ay-body {
   }
   50% {
     transform: translateY(-5px) scale(1.05);
+  }
+}
+
+@keyframes aySweep {
+  from {
+    transform: translateX(-24%) rotate(-8deg);
+  }
+  to {
+    transform: translateX(28%) rotate(-8deg);
   }
 }
 
