@@ -2,26 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Cart - AyuCare</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="ayu-theme.css" />
 </head>
-<body class="bg-yellow-50 text-yellow-900 p-6">
-  <h1 class="text-3xl font-bold text-center mb-6">🛒 Your Cart</h1>
+<body class="ay-body">
+  <div class="ay-bg-blur" aria-hidden="true"></div>
+  <div class="ay-wrap">
+    <header class="ay-topbar ay-glass">
+      <div class="ay-brand">AyuCare</div>
+      <nav class="ay-nav">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="cart.html">Cart</a>
+      </nav>
+    </header>
 
-  <div id="cartItems" class="space-y-4 mb-6"></div>
+    <section class="ay-hero ay-glass ay-reveal" style="grid-template-columns:1fr;">
+      <div>
+        <h1>Your Ayurvedic Cart</h1>
+        <p class="ay-sub">Review items before secure checkout.</p>
+      </div>
+    </section>
 
-  <div class="text-right text-xl font-semibold mb-4">
-    Total: ₹<span id="totalPrice">0</span>
+    <main class="ay-content ay-reveal">
+      <section class="ay-panel ay-glass">
+        <div id="cartItems" style="display:grid;gap:0.8rem;margin-bottom:1rem;"></div>
+
+        <div style="text-align:right;font-size:1.15rem;font-weight:700;margin-bottom:0.9rem;">
+          Total: ₹<span id="totalPrice">0</span>
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:0.7rem;flex-wrap:wrap;">
+          <a href="shop.html" class="ay-btn alt" style="text-decoration:none;">Continue Shopping</a>
+          <button id="checkoutBtn" class="ay-btn">Checkout</button>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <div class="text-right">
-    <!-- ✅ Added id="checkoutBtn" -->
-    <button id="checkoutBtn" class="bg-yellow-300 px-6 py-3 rounded hover:bg-yellow-400 font-bold">
-      Checkout
-    </button>
-  </div>
-
+  <script src="ayu-theme.js"></script>
   <script src="cart.js"></script>
 </body>
 </html>

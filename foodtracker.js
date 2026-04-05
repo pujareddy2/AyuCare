@@ -26,13 +26,13 @@ function saveEntry() {
   
   function viewLog() {
     const logDisplay = document.getElementById("logDisplay");
-    logDisplay.innerHTML = "<h2 class='text-xl font-bold mb-2'>📅 Food Log:</h2>";
-    logDisplay.classList.remove("hidden");
+    logDisplay.innerHTML = "<h2 style='margin:0 0 0.6rem;font-family:Cinzel, serif;'>Food Log</h2>";
+    logDisplay.style.display = "block";
   
     const keys = Object.keys(localStorage).filter(key => key.startsWith("foodLog_")).sort().reverse();
   
     if (keys.length === 0) {
-      logDisplay.innerHTML += "<p class='text-gray-500'>No entries found.</p>";
+      logDisplay.innerHTML += "<p style='color:#557162;'>No entries found.</p>";
       return;
     }
   
@@ -41,9 +41,9 @@ function saveEntry() {
       const entry = JSON.parse(localStorage.getItem(key));
   
       logDisplay.innerHTML += `
-        <div class="border border-green-200 p-4 mb-2 rounded bg-green-50">
-          <h3 class="font-semibold text-lg">📆 ${date}</h3>
-          <ul class="ml-4 list-disc text-sm mt-1">
+        <div style="border:1px solid rgba(31,74,56,0.2);padding:0.8rem;margin-bottom:0.6rem;border-radius:0.8rem;background:rgba(255,255,255,0.74);">
+          <h3 style="margin:0 0 0.35rem;font-size:1rem;font-weight:700;">${date}</h3>
+          <ul style="margin:0;padding-left:1rem;line-height:1.5;font-size:0.92rem;">
             <li><strong>Breakfast:</strong> ${entry.breakfast}</li>
             <li><strong>Lunch:</strong> ${entry.lunch}</li>
             <li><strong>Dinner:</strong> ${entry.dinner}</li>

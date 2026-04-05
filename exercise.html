@@ -2,14 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exercises & Homeopathy - AyuCare</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="ayu-theme.css" />
 </head>
-<body class="bg-green-50 text-green-900 p-6">
-  <h1 class="text-3xl font-bold text-center mb-6 text-green-800">🏃‍♀️ Exercises & Homeopathy</h1>
+<body class="ay-body">
+  <div class="ay-bg-blur" aria-hidden="true"></div>
+  <div class="ay-wrap">
+    <header class="ay-topbar ay-glass">
+      <div class="ay-brand">AyuCare</div>
+      <nav class="ay-nav">
+        <a href="index.html">Home</a>
+        <a href="meditation.html">Meditation</a>
+        <a href="yoga.html">Yoga</a>
+        <a href="exercise.html">Exercise</a>
+      </nav>
+    </header>
 
-  <div class="bg-green-100 p-6 rounded-xl shadow max-w-xl mx-auto border border-green-300">
+    <section class="ay-hero ay-glass ay-reveal">
+      <div>
+        <h1>Exercises and Homeopathy</h1>
+        <p class="ay-sub">Pick a condition and get guided practices plus complementary suggestions.</p>
+      </div>
+      <div class="ay-ring ay-spin">
+        <img src="TulsiP.PNG" alt="Tulsi" />
+        <img src="AmlaP.PNG" alt="Amla" />
+        <img src="Brahmi.jpeg" alt="Brahmi" />
+        <img src="GingerP.PNG" alt="Ginger" />
+        <img src="CastorOil.PNG" alt="Castor oil" />
+        <div class="ay-ring-inner">Move<br />Heal</div>
+      </div>
+    </section>
+
+    <main class="ay-content">
+      <div class="ay-panel ay-glass ay-reveal" style="max-width:920px;margin:0 auto;">
     <label for="condition" class="block text-lg font-semibold mb-2 text-green-900">Select your health condition:</label>
     
     <select id="condition" onchange="showRecommendations()" class="w-full border border-green-300 bg-white px-4 py-2 rounded mb-4 text-green-800">
@@ -23,6 +53,9 @@
     </select>
 
     <div id="recommendations" class="mt-4 text-green-800 space-y-2"></div>
+  </div>
+
+    </main>
   </div>
 
   <script>
@@ -234,5 +267,7 @@
       }
     }
   </script>
+
+  <script src="ayu-theme.js"></script>
 </body>
 </html>

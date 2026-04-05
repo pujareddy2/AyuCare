@@ -12,12 +12,12 @@ function loadCart() {
     total += price;
 
     cartItemsContainer.innerHTML += `
-      <div class="flex justify-between items-center bg-white p-4 rounded shadow">
+      <div class="ay-card" style="display:flex;justify-content:space-between;align-items:center;gap:0.7rem;">
         <div>
-          <h2 class="text-lg font-semibold">${item.name}</h2>
-          <p class="text-yellow-700">${item.price}</p>
+          <h2 style="margin:0;font-size:1.05rem;font-weight:700;">${item.name}</h2>
+          <p style="margin:0.25rem 0 0;color:#b76d34;font-weight:700;">${item.price}</p>
         </div>
-        <button onclick="removeItem(${index})" class="text-red-500 font-semibold hover:underline">Remove</button>
+        <button onclick="removeItem(${index})" class="ay-btn alt">Remove</button>
       </div>
     `;
   });

@@ -2,40 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>📋 Recommendation - AyuCare</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="ayu-theme.css" />
 </head>
-<body class="bg-green-50 text-green-900 p-6">
-  <h1 class="text-3xl font-bold text-center mb-6 text-green-800">📋 Recommendation</h1>
+<body class="ay-body">
+  <div class="ay-bg-blur" aria-hidden="true"></div>
+  <div class="ay-wrap">
+    <header class="ay-topbar ay-glass">
+      <div class="ay-brand">AyuCare</div>
+      <nav class="ay-nav">
+        <a href="index.html">Home</a>
+        <a href="food.html">Recommendations</a>
+        <a href="foodtracker.html">Diet Tracker</a>
+      </nav>
+    </header>
 
-  <!-- 🌿 Daily Tip -->
-  <section class="bg-white p-4 rounded shadow mb-6">
-    <div class="flex justify-between items-center">
-      <h2 class="text-2xl font-semibold mb-2 text-green-700">🌿 Daily Ayurvedic Tip</h2>
-      <button onclick="showNewTip()" class="bg-green-300 hover:bg-green-400 px-4 py-2 rounded font-semibold text-sm text-green-900">🔄 New Tip</button>
-    </div>
-    <p id="dailyTip" class="text-green-800 italic mt-2"></p>
-  </section>
+    <section class="ay-hero ay-glass ay-reveal">
+      <div>
+        <h1>Symptom-Based Ayurvedic Recommendations</h1>
+        <p class="ay-sub">Get curated guidance with daily tips and personalized logs.</p>
+      </div>
+      <div class="ay-ring ay-spin">
+        <img src="TulsiP.PNG" alt="Tulsi" />
+        <img src="NeemP.PNG" alt="Neem" />
+        <img src="AmlaP.PNG" alt="Amla" />
+        <img src="GingerP.PNG" alt="Ginger" />
+        <img src="Brahmi.jpeg" alt="Brahmi" />
+        <div class="ay-ring-inner">Daily<br />Care</div>
+      </div>
+    </section>
 
-  <!-- 📝 Symptom Checker -->
-  <section class="bg-white p-4 rounded shadow mb-6">
-    <h2 class="text-2xl font-semibold mb-4 text-green-700">🤒 Enter Your Symptom</h2>
-    <input type="text" id="symptomInput" placeholder="e.g. headache, cough" class="w-full border border-green-300 px-4 py-2 mb-4 rounded text-green-900">
-    <button onclick="recommendAyurvedicItems()" class="bg-green-300 hover:bg-green-400 px-6 py-2 rounded font-bold text-green-900">Get Recommendation</button>
-    <div id="recommendationResult" class="mt-4 text-lg text-green-800"></div>
-    <button onclick="logSymptom()" class="mt-2 bg-green-200 hover:bg-green-300 px-4 py-1 rounded text-sm text-green-900">📝 Log This</button>
-  </section>
+    <main class="ay-content ay-grid-2">
+      <section class="ay-panel ay-glass ay-reveal">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+          <h2 style="margin:0;font-family:'Cinzel',serif;">Daily Ayurvedic Tip</h2>
+          <button onclick="showNewTip()" class="ay-btn alt">New Tip</button>
+        </div>
+        <p id="dailyTip" style="margin-top:0.7rem;font-style:italic;color:#2e6a4f;"></p>
+      </section>
 
-  <!-- 📜 Log Viewer -->
-  <section class="bg-white p-4 rounded shadow mb-6">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-2xl font-semibold text-green-700">📋 Your Symptom Log</h2>
-      <button onclick="clearSymptomLog()" class="bg-red-200 hover:bg-red-300 text-red-800 px-4 py-1 rounded text-sm">🧹 Clear Log</button>
-    </div>
-    <ul id="symptomLog" class="list-disc pl-5 space-y-2 text-green-800"></ul>
-  </section>
+      <section class="ay-panel ay-glass ay-reveal">
+        <h2 style="margin-top:0;font-family:'Cinzel',serif;">Enter Your Symptom</h2>
+        <input type="text" id="symptomInput" placeholder="e.g. headache, cough" class="ay-input" />
+        <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:0.7rem;">
+          <button onclick="recommendAyurvedicItems()" class="ay-btn">Get Recommendation</button>
+          <button onclick="logSymptom()" class="ay-btn alt">Log This</button>
+        </div>
+        <div id="recommendationResult" style="margin-top:0.8rem;"></div>
+      </section>
 
+      <section class="ay-panel ay-glass ay-reveal" style="grid-column:1/-1;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+          <h2 style="margin:0;font-family:'Cinzel',serif;">Your Symptom Log</h2>
+          <button onclick="clearSymptomLog()" class="ay-btn alt">Clear Log</button>
+        </div>
+        <ul id="symptomLog" style="margin-top:0.8rem;padding-left:1.1rem;line-height:1.55;"></ul>
+      </section>
+    </main>
+  </div>
+
+  <script src="ayu-theme.js"></script>
   <script src="food.js"></script>
 </body>
 </html>

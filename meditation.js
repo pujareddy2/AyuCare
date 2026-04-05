@@ -47,9 +47,9 @@ function displayVideos() {
   container.innerHTML = "";
   videos.forEach(video => {
     container.innerHTML += `
-      <div class="bg-white p-4 rounded shadow">
-        <h2 class="text-lg font-semibold mb-2 text-green-800">${video.title}</h2>
-        <iframe class="w-full h-56 rounded" src="${video.url}" frameborder="0" allowfullscreen></iframe>
+      <div class="ay-card">
+        <h2 style="margin:0 0 0.5rem;font-size:1rem;font-weight:700;color:#204b38;">${video.title}</h2>
+        <iframe style="width:100%;height:230px;border:0;border-radius:0.8rem;" src="${video.url}" allowfullscreen></iframe>
       </div>
     `;
   });
@@ -68,10 +68,10 @@ function displayMeditations(category) {
 
   filtered.forEach(meditation => {
     const div = document.createElement('div');
-    div.className = 'bg-white p-4 rounded shadow';
+    div.className = 'ay-card';
     div.innerHTML = `
-      <h3 class="text-lg font-semibold mb-2">${meditation.title}</h3>
-      <iframe width="100%" height="215" src="${meditation.video}" frameborder="0" allowfullscreen></iframe>
+      <h3 style="margin:0 0 0.5rem;font-size:1rem;font-weight:700;">${meditation.title}</h3>
+      <iframe style="width:100%;height:215px;border:0;border-radius:0.8rem;" src="${meditation.video}" allowfullscreen></iframe>
     `;
     container.appendChild(div);
   });
